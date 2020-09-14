@@ -21,31 +21,28 @@ public class OrderReceipt {
 		output.append(header);
 
 		// print date, bill no, customer name
-//        output.append("Date - " + order.getDate();
+		output.append(order.getDate());
         output.append(order.getCustomerName());
         output.append(order.getCustomerAddress());
-//        output.append(order.getCustomerLoyaltyNumber());
+        output.append(order.getCustomerLoyaltyNumber());
 
 		// prints lineItems
 		double totSalesTx = 0d;
 		double tot = 0d;
-		orderReceip(output, totSalesTx, tot);
+		printLineItems(output, totSalesTx, tot);
 		return output.toString();
 	}
 
-	public void orderReceip(StringBuilder output, double totSalesTx, double tot) {
+	public void printLineItems(StringBuilder output, double totSalesTx, double tot) {
 		for (LineItem lineItem : order.getLineItems()) {
-			output.append(lineItem.getDescription());
-			output.append('\t');
-			output.append(lineItem.getPrice());
-			output.append('\t');
-			output.append(lineItem.getQuantity());
-			output.append('\t');
-			output.append(lineItem.totalAmount());
-			output.append('\n');
+			outputAppendStrings(output.append(lineItem.getDescription()), '\t');
+			outputAppendStrings(output.append(lineItem.getPrice()), '\t');
+			outputAppendStrings(output.append(lineItem.getQuantity()), '\t');
+			outputAppendStrings(output.append(lineItem.totalAmount()), '\n');
 
 			// calculate sales tax @ rate of 10%
-            double salesTax = lineItem.totalAmount() * .10;
+			double taxRate = .10;
+            double salesTax = lineItem.totalAmount() * taxRate;
             totSalesTx += salesTax;
 
             // calculate total amount of lineItem = price * quantity + 10 % sales tax
@@ -57,5 +54,9 @@ public class OrderReceipt {
 
 		// print total amount
 		output.append("Total Amount").append('\t').append(tot);
+	}
+
+	public void outputAppendStrings(StringBuilder append, char c) {
+		append.append(c);
 	}
 }
