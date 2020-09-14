@@ -29,16 +29,7 @@ public class DateParser {
     public Date parse() {
         int year, month, date, hour, minute;
 
-        try {
-            String yearString = dateAndTimeString.substring(0, 4);
-            year = Integer.parseInt(yearString);
-        } catch (StringIndexOutOfBoundsException e) {
-            throw new IllegalArgumentException("Year string is less than 4 characters");
-        } catch (NumberFormatException e) {
-            throw new IllegalArgumentException("Year is not an integer");
-        }
-        if (year < 2000 || year > 2012)
-            throw new IllegalArgumentException("Year cannot be less than 2000 or more than 2012");
+        year = getTime(dateAndTimeString);
 
         try {
             String monthString = dateAndTimeString.substring(5, 7);
@@ -95,5 +86,20 @@ public class DateParser {
         calendar.set(year, month - 1, date, hour, minute, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime();
+    }
+
+    public static int getTime(java.lang.String dateAndTimeString) throws IllegalArgumentException {
+        int year;
+        try {
+            String yearString = dateAndTimeString.substring(0, 4);
+            year = Integer.parseInt(yearString);
+        } catch (StringIndexOutOfBoundsException e) {
+            throw new IllegalArgumentException("Year string is less than 4 characters");
+        } catch (NumberFormatException e) {
+            throw new IllegalArgumentException("Year is not an integer");
+        }
+        if (year < 2000 || year > 2012)
+            throw new IllegalArgumentException("Year cannot be less than 2000 or more than 2012");
+        return year;
     }
 }
